@@ -1,7 +1,9 @@
 include config.mk
 
 # CC += -g -fsanitize=address -fno-omit-frame-pointer # -fprofile-arcs -ftest-coverage
+# CFLAGS := -g -ffast-math -Wall $(CFLAGS)
 CFLAGS := -O3 -ffast-math -Wall $(CFLAGS)
+# NVFLAGS := -g $(NVFLAGS)
 NVFLAGS := -O3 $(NVFLAGS)
 
 .PHONY: all clean
@@ -16,6 +18,9 @@ libccv.a: ccv_cache.o ccv_memory.o 3rdparty/sha1/sha1.o 3rdparty/kissfft/kiss_ff
 
 ccv_io.o: ccv_io.c ccv.h ccv_internal.h io/*.c
 	$(CC) $< -o $@ -c $(CFLAGS)
+
+# 3rdparty/sqlite3/sqlite3.o: 3rdparty/sqlite3/sqlite3.c
+	# $(CC) $< -o $@ -c -g -D SQLITE_THREADSAFE=0 -D SQLITE_OMIT_LOAD_EXTENSION
 
 3rdparty/sqlite3/sqlite3.o: 3rdparty/sqlite3/sqlite3.c
 	$(CC) $< -o $@ -c -O3 -D SQLITE_THREADSAFE=0 -D SQLITE_OMIT_LOAD_EXTENSION
